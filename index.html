@@ -22,7 +22,7 @@
     <div>
         <button onclick="closeMedia()">关闭</button>
     </div>
-    
+
     <script type="text/javascript">
         var state = 0;
         function openWebcam(option)
@@ -34,8 +34,8 @@
             navigator.getUserMedia = navigator.getUserMedia || 
                                     navigator.webkitGetUserMedia || 
                                     navigator.mozGetUserMedia || 
-                                    navigator.msGetUserMedia ||
-                                    navigator.mediaDevices.getUserMedia;
+                                    navigator.msGetUserMedia; 
+                                    // || navigator.mediaDevices.getUserMedia;
             if (!navigator.getUserMedia) alert("该浏览器不支持访问用户媒体设备");
             else
             {

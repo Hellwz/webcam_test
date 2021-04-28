@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摄像头测试</title>
+</head>
+
+<style>
+    body{ text-align:center} 
+    #divcss5{margin:0 auto;border:1px solid #000;width:500px;height:500px}
+</style>
+
+<body>
+    <div id="divcss5">
+        <video src="" id="iv" style="width: 500px;height: 500px;" autoplay="autoplay"></video>
+    </div>
+    <div>
+        <button onclick="openWebcam(1)">开启前置摄像头</button>
+        <button onclick="openWebcam(2)">开启后置摄像头</button>
+    </div>
+    <div>
+        <button onclick="closeMedia()">关闭</button>
+    </div>
+    
+    <script type="text/javascript">
+        var state = 0;
+        function openWebcam(option)
+        {
+            if (state == 1)
+            {
+                closeMedia();
+            }
+            navigator.getUserMedia = navigator.getUserMedia || 
+                                    navigator.webkitGetUserMedia || 
+                                    navigator.mozGetUserMedia || 
+                                    navigator.msGetUserMedia ||
+                                    navigator.mediaDevices.getUserMedia;
+            if (!navigator.getUserMedia) alert("该浏览器不支持访问用户媒体设备");
+            else
+            {
+                if (option == 1)
+                {
+                    navigator.getUserMedia(
+                    {
+                        video:{ facingMode: "user" },
+                        audio:false
+                    },
+                    function(stream){
+                    document.getElementById('iv').srcObject = stream; 
+                    },console.log); 
+                    state = 1;
+                }
+                else
+                {
+                    navigator.getUserMedia(
+                    {
+                        video:{ facingMode: "enviroment" },
+                        audio:false
+                    },
+                    function(stream){
+                    document.getElementById('iv').srcObject = stream; 
+                    },console.log);
+                    state = 1;
+                }
+            }     
+        }
+
+        function closeMedia() {
+          let stream = document.getElementById('iv').srcObject;
+          let tracks = stream.getTracks();
+          tracks.forEach(function(track) {
+            track.stop();
+          });
+          document.getElementById('iv').srcObject = null;
+          state = 0;
+        }
+    </script>
+</body>
+</html>
